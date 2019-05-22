@@ -1,0 +1,94 @@
+<aura:component implements="force:appHostable,force:hasRecordId,flexipage:availableForAllPageTypes,force:lightningQuickAction,lightning:actionOverride" >
+    <aura:attribute name="newRecord" type="Object"/>
+    <aura:attribute name="MaserOjectRecord" type="String"/>
+    <aura:attribute name="currentRecordId" type="String"/>
+    <aura:attribute name="isCreate" type="boolean" />
+    <aura:attribute name="simpleNew" type="Object"/>
+    <aura:attribute name="simpleUpdate" type="Object"/>
+    <aura:attribute name="newRecordUpdate" type="Object"/>
+    <aura:attribute name="Name" type="Object"/>
+    <aura:attribute name="fields" type="list" default="['Name','Email']"/>
+    <aura:attribute name="selectedtabId" type="String" default="CreateNewRecord"/>
+    <aura:attribute name="contact" type="Contact" 
+               default="{ 'sobjectType': 'Contact' }"/>
+    <force:recordData aura:id="RecordCreator"
+                      layoutType="FULL"
+                      targetFields ="{!v.simpleNew}"
+                      
+                      />
+    <force:recordData aura:id="RecordUpdate"
+                      recordId="{!v.recordId}"
+                      mode="EDIT"
+                      layoutType="FULL"
+                      targetRecord="{!v.newRecordUpdate}"
+                      targetFields ="{!v.simpleUpdate}"
+                      
+                      
+                      />
+    <!--<lightning:inputRichText value="HELLO">
+        <lightning:insertImageButton/>
+    </lightning:inputRichText>-->
+<!--    <force:inputField value="{!v.contact.Contacts}"/>-->
+     <lightning:recordViewForm recordId="0037F000016adFF" objectApiName="Contact">
+        <div class="slds-box">
+            <lightning:outputField fieldName="Name" />
+            <lightning:inputField fieldName="Name" />
+         </div>
+    </lightning:recordViewForm>
+     <lightning:recordEditForm
+            recordId="0037F000016adFF"
+            objectApiName="Contact">
+            <!-- the messages component is for error messages -->
+            <lightning:messages />
+
+            <lightning:inputField fieldName="Name" />
+         <lightning:outputField fieldName="Name" />
+    </lightning:recordEditForm>
+ <lightning:recordForm
+        recordId="0037F000016adFF"
+        objectApiName="Contact"
+       fields="{!v.fields}"
+                     
+        mode="view" />
+      <!--<lightning:input aura:id="recordField" type="number" label="Name" value="{!v.Name}" onchage="{!c.change}"/>-->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <!-- Display the new contact form -->
+    <lightning:tabset  class="slds-tabs_medium borderBox slds-p-around_small"  selectedTabId="{!v.selectedtabId}">
+        <lightning:tab class="slds-p-right_small slds-p-left_small" label="CreateNewRecord" id="CreateNewRecord">
+            <div class="Create Record">
+                <lightning:card iconName="action:new_contact" title="Lightning Data Services">
+                    <div class="slds-p-horizontal--small">
+                        <lightning:input aura:id="recordField" label="Name" value="{!v.simpleNew.Name}"/>
+                        <lightning:input aura:id="recordField" label="Region" value="{!v.simpleNew.region__c}"/>
+                        <lightning:input aura:id="recordField" label="Contact Size" value="{!v.simpleNew.Contact_size__c}"/>
+                        <br/>
+                        <lightning:button label="Create New Record" variant="brand" onclick="{!c.handleSave}"/>
+                        
+                    </div>
+                </lightning:card>
+            </div>
+        </lightning:tab>
+        <lightning:tab class="slds-p-right_small slds-p-left_small" label="UpdateCurrentRecord" id="UpdateCurrentRecord">
+            <div class="Update Record">
+                <lightning:card iconName="action:new_contact" title="Lightning Data Services">
+                    <div class="slds-p-horizontal--small">
+                        <lightning:input aura:id="recordField" label="Name" value="{!v.simpleUpdate.Name}"/>
+                        <lightning:input aura:id="recordField" label="Region" value="{!v.simpleUpdate.region__c}"/>
+                        <lightning:input aura:id="recordField" label="Contact Size" value="{!v.simpleUpdate.Contact_size__c}"/>
+                        <br/>
+                        
+                        <lightning:button label="Update Record" variant="brand" onclick="{!c.handleUpdateRecord}"/>
+                        <lightning:button label="Delete Record" variant="brand" onclick="{!c.handleDeleteRecord}"/>
+                        
+                    </div>
+                </lightning:card>
+            </div>  
+        </lightning:tab>
+        
+    </lightning:tabset>
+    
+    
+    
+    
+    
+</aura:component>
